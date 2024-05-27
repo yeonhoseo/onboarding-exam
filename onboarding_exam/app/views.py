@@ -64,16 +64,11 @@ def account_list(request):
 def account_detail(request,account_id) :   
     account_info = sf_client.query(format_soql('SELECT Name, Industry, Type, Phone, Website, BillingCity, BillingCountry, BillingState, BillingPostalCode, BillingStreet \
                                                FROM Account WHERE Id={account_id}',account_id= account_id))['records'][0]
-                                               
-    #opps = sf_client.query(format_soql('SELECT Id, (SELECT Id,AccountId, Name, StageName, CloseDate, Amount, Probability \
-    #                                       FROM Opportunity WHERE StageName="Closed Won")\
-    #                                  FROM Account'))
-
-    #opp=sf_client.query(format_soql("SELECT Id,Name,(SELECT Id,Name FROM Opportunity WHERE StageName='Closed Won') FROM Account"))
-    
+                                   
+    opps = sf_client.query(format_soql('SELECT Id, (SELECT Id, Name , Amount FROM Opportunities WHERE StageName=\'Closed Won\' ORDER BY Amount DESC LIMIT 1) FROM Account WHERE Id={account_id}',account_id=account_id))['records'][0]['Opportunities']
     context = {
         'account' : account_info,
-        #'opps' : opps
+        'opps' : opps
     }
 
     return render(request,'account_detail.html',context)

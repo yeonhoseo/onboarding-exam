@@ -22,6 +22,28 @@
         </div>
     </div>
 
+    <h2 class="border-bottom py-2" > Stage가 Closed Won중 가장 높은 Amount를 갖는 Opportunity </h2>
+    <div class="card my-3">
+        <div class="card-body" s> 
+
+    {%if account %}
+        {% for key,value in opps.items %}
+            {% if key == 'attributes'%}
+                {# 'attributes' 키는 건너뜁니다 #}
+            {% else %}
+            <div class="card my-3">
+                <div class="card-body" s> 
+                    <p style="display: inline-block; width: 150px; margin: 0;">{{ key }} :</p>
+                    <p style="display: inline-block; margin: 0;">{{ value }}</p>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+        </div>
+    </div>
+
+
     <!-- #TODO : Related Opp Query  -->
     <button><a href="{% url 'app:account_list' %}" class="btn">Previous</a></button>
 </div>

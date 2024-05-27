@@ -1,0 +1,21 @@
+{% extends 'common/base.html'%}
+{% block content %}
+<div class="container my-3">
+    <h2 class="border-bottom py-2" >Lead created successfully</h2>
+    {%if lead %}
+        {% for key,value in lead.items %}
+            {% if key == 'attributes'%}
+                {# 'attributes' 키는 건너뜁니다 #}
+            {% else %}
+            <div class="card my-3">
+                <div class="card-body" s> 
+                    <p style="display: inline-block; width: 100px; margin: 0;">{{ key }} :</p>
+                    <p style="display: inline-block; margin: 0;">{{ value }}</p>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <button><a href="{% url 'app:leadcreate' %}" class="btn">Previous</a></button>
+</div>
+{% endblock %}

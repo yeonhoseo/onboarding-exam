@@ -1,0 +1,17 @@
+/* 기본 버튼 스타일 */
+.btn {
+    display: inline-block;
+    padding: 5px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 버튼에 호버 효과 */
+.btn:hover {
+    background-color: #0056b3;
+}

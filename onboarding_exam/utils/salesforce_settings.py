@@ -2,13 +2,14 @@ import os
 import requests
 from dotenv import load_dotenv
 from simple_salesforce import Salesforce,SalesforceAuthenticationFailed 
-
+from .logger import Logger
 DOT_FILE_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),'.env')
 
 #TODO : print -> Logger 로 변경 필요 
-class SalesforceConnectionManager():
+class SalesforceConnectionManager :
     def __init__(self,env : str ) : 
         load_dotenv(DOT_FILE_PATH)
+        
         self._SALESFORCE_USERNAME : str = os.getenv("SALESFORCE_USERNAME")
         self._SALESFORCE_PASSWORD : str = os.getenv("SALESFORCE_PASSWORD")
         self._SALESFORCE_SECURITY_TOKEN : str = os.getenv("SALESFORCE_SECURITY_TOKEN")
@@ -19,6 +20,9 @@ class SalesforceConnectionManager():
         self.env = env
         self.session = requests.Session()
         
+        self.logger = Logger(logger_name='dev')
+        
+
     def is_valid_token(self) -> bool :
         if self._SALESFORCE_SECURITY_TOKEN : 
             return True
@@ -38,15 +42,15 @@ class SalesforceConnectionManager():
                     self.sf = Salesforce(username=self._SALESFORCE_USERNAME,
                         password=self._SALESFORCE_PASSWORD, 
                         security_token=self._SALESFORCE_SECURITY_TOKEN,
-                        session=self.session,
-                        domain='test')
-                
-                print("Successfully connected to Salesforce") 
+                        session=self.session)
+                    #,domain='test'
+                print("Successfully connected to Salesforce")
+                self.logger.info("Successfully connected to Salesforce")
                 return self.sf
             except SalesforceAuthenticationFailed as e :
-                print("Salesforce Authentication Failure : ",e)
+                self.logger.error(f"Salesforce Authentication Failure : {e}")
             except Exception as e : 
-                print("Salesforce Authentication Failure : ",e)
+                self.logger.error(f"Salesforce Authentication Failure : {e}")
             
     def request_salesforce_token(self) : 
         if self.is_valid_token() :

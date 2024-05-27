@@ -2,7 +2,7 @@ from pathlib import Path
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from utils.salesforce_settings import SalesforceConnectionManager
-
+import logging.config
 # Salesforce 객체 생성
 if os.environ.get('ENV') == 'prod':
     sf_manager = SalesforceConnectionManager(env = 'prod')
@@ -115,3 +115,46 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# 로깅 설정 적용
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[{levelname}] : {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '[{levelname}] : {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/django.log'),
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'prod': {
+            'handlers': ['file', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'dev': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
+
+logging.config.dictConfig(LOGGING)

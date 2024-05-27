@@ -65,7 +65,7 @@ def account_detail(request,account_id) :
     account_info = sf_client.query(format_soql('SELECT Name, Industry, Type, Phone, Website, BillingCity, BillingCountry, BillingState, BillingPostalCode, BillingStreet \
                                                FROM Account WHERE Id={account_id}',account_id= account_id))['records'][0]
                                    
-    opps = sf_client.query(format_soql('SELECT Id, (SELECT Id, Name , Amount FROM Opportunities WHERE StageName=\'Closed Won\' ORDER BY Amount DESC LIMIT 1) FROM Account WHERE Id={account_id}',account_id=account_id))['records'][0]['Opportunities']
+    opps = sf_client.query(format_soql('SELECT Id, (SELECT Id, Name , Amount FROM Opportunities WHERE StageName=\'Closed Won\' ORDER BY Amount DESC LIMIT 1) FROM Account WHERE Id={account_id}',account_id=account_id))['records'][0]['Opportunities']['records'][0]
     context = {
         'account' : account_info,
         'opps' : opps

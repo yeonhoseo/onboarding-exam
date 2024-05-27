@@ -1,30 +1,49 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Lead Creation Form</title>
-    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-</head>
-<body>
-    <h2>Create Lead</h2>
-    <form action ="{% url 'app:leadcreate'%}" method="POST" u>
-        {% csrf_token %}
-        <label for="first_name">First Name</label>
-        <input id="first_name" maxlength="40" name="FirstName" size="20" type="text" /><br>
-        
-        <label for="last_name">Last Name</label>
-        <input id="last_name" maxlength="80" name="LastName" size="20" type="text" /><br>
 
-        <label for="company">Company</label>
-        <input id="company" maxlength="40" name="Company" size="20" type="text" /><br>
+{% extends 'common/base.html' %}
+{% block content %}
 
-        <label for="phone">Phone</label>
-        <input id="phone" maxlength="40" name="Phone" size="20" type="text" /><br>
+<form action ="{% url 'app:leadcreate'%}" method="POST" u>
+    {% csrf_token %}
 
-        <label for="email">Email</label>
-        <input id="email" maxlength="40" name="Email" size="20" type="text" /><br>
-       
-        <input type="submit" value="Create Lead" />
-    </form>
-</body>
-</html>
+    <div class="container my-3">
+        <h2 class="border-bottom py-2" >Create Lead</h2>
 
+        <div class="card my-3">
+            <div class="card-body">
+                <label for="first_name" class="card-text" style="width:100px;">First Name</label>
+                <input id="first_name" maxlength="40" name="FirstName" size="20" type="text" /><br>
+            </div>
+        </div>
+    
+    
+    <div class="card my-3">
+        <div class="card-body">
+            <label for="last_name" style="width:100px;">Last Name</label>
+            <input id="last_name" maxlength="80" name="LastName" size="20" type="text" /><br>
+        </div>
+    </div>
+    <div class="card my-3">
+        <div class="card-body">
+            <label for="company" style="width:100px;">Company</label>
+            <input id="company" maxlength="40" name="Company" size="20" type="text" /><br>
+        </div>
+    </div>
+    <div class="card my-3">
+        <div class="card-body">
+            <label for="phone" style="width:100px;">Phone</label>
+            <input id="phone" maxlength="40" name="Phone" size="20" type="text" /><br>
+        </div>
+    </div>
+    <div class="card my-3">
+        <div class="card-body">
+            <label for="email" style="width:100px;">Email</label>
+            <input id="email" maxlength="40" name="Email" size="20" type="text" /><br>  
+        </div>
+    </div>
+
+    <input type="submit" value="Create Lead" />
+</div>
+
+</form>
+
+{% endblock %}
